@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, flash, Blueprint
+from flask import render_template, redirect, request, flash, Blueprint, url_for
 from werkzeug.security import generate_password_hash
 
 from db import db, cursor
@@ -16,7 +16,7 @@ def register_teacher():
 
         # check duplicate email
         cursor.execute(
-            "SELECT id FROM users WHERE email=%s", (email)
+            "SELECT id FROM users WHERE email=%s", (email,)
         )
         if cursor.fetchone():
             flash("Email already exits", "danger")
@@ -48,6 +48,10 @@ def register_teacher():
 
         flash("Teacher Registered Successfully!", "success")
 
-        return redirect("/register_teacher")
+        return redirect(url_for("teacher.register_teacher"))
 
     return render_template("register_teacher.html")
+
+@teacher_bp.route("/teacher/dashboard")
+def dashboard():
+    return "<h1>Teacher Dashboard</h1>"
