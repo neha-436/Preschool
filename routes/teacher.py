@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, flash, Blueprint, url_for
+from flask import render_template, redirect, request, flash, Blueprint, url_for, session
 from werkzeug.security import generate_password_hash
 
 from db import db, cursor
@@ -7,6 +7,13 @@ teacher_bp = Blueprint("teacher", __name__)
 
 @teacher_bp.route("/register_teacher", methods=["GET", "POST"])
 def register_teacher():
+    if "user_id" not in session:
+        flash("Please login first.", "warning")
+        return redirect(url_for("auth.login"))
+
+    if session["role"] != "admin":
+        flash("Access denied.", "danger")
+        return redirect(url_for("auth.login"))
 
     if request.method == "POST":
         name = request.form["name"]
@@ -48,7 +55,7 @@ def register_teacher():
 
         flash("Teacher Registered Successfully!", "success")
 
-        return redirect(url_for("teacher.register_teacher"))
+        return redirect(url_for("admin.dashboard"))
 
     return render_template("register_teacher.html")
 

@@ -12,6 +12,7 @@ def login():
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
+        selected_role = request.form["role"]
 
         cursor.execute(
             "SELECT * FROM users WHERE email=%s", (email,)
@@ -20,15 +21,19 @@ def login():
         user = cursor.fetchone()
 
         if not user:
-            flash("Invalid email")
+            flash("Invalid email", "danger")
             return redirect(url_for("auth.login"))
         
         if not check_password_hash(user["password"], password):
-            flash("Incorrect Password")
+            flash("Incorrect Password", "danger")
             return redirect(url_for("auth.login")) 
         
+        if user["role"] != selected_role:
+            flash("Selected role does not match your account.", "danger")
+            return redirect(url_for("auth.login"))
+        
         if user["status"] != "active":
-            flash("Account pending approval")
+            flash("Account pending approval", "danger")
             return redirect(url_for("auth.login"))
         
         session["user_id"] = user["id"]
@@ -43,3 +48,8 @@ def login():
             return redirect(url_for("parent.dashboard"))
         
     return render_template("auth/login.html")
+
+@auth_bp.route("/flash-test")
+def flash_test():
+    flash("Flash is working!", "success")
+    return redirect(url_for("auth.login"))
