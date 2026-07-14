@@ -53,3 +53,7 @@ def login():
 def flash_test():
     flash("Flash is working!", "success")
     return redirect(url_for("auth.login"))
+
+@auth_bp.route("/logout")
+def logout():
+    return redirect(url_for("auth.login"))

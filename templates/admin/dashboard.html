@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>Admin Dashboard</title>
@@ -25,7 +25,193 @@
 
     </div>
 
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for parent in parents %}
+            <tr>
+                <td>{{ parent.name }}</td>
+                <td>{{ parent.email }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('admin.approve_parent', user_id=parent.id) }}">
+                        <button class="btn btn-success btn-sm">Approve</button>
+                    </form>
+                    <form method="POST" action="{{ url_for('admin.reject_parent', user_id=parent.id) }}">
+                        <button class="btn btn-danger btn-sm">Reject</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 </div>
 
 </body>
-</html>
+</html> -->
+
+{% extends "base.html" %}
+
+{% block title %}
+Admin Dashboard
+{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<!-- Dashboard Cards -->
+<div class="row g-4">
+
+    <div class="col-md-4">
+        <div class="card shadow-custom">
+            <div class="card-body text-center">
+                <h6 class="text-muted">Pending Parent Requests</h6>
+                <h2>{{ pending_count }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-custom">
+            <div class="card-body text-center">
+                <h6 class="text-muted">Teachers</h6>
+                <h2>{{ teacher_count }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-custom">
+            <div class="card-body text-center">
+                <h6 class="text-muted">Students</h6>
+                <h2>{{ student_count }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Quick Actions -->
+<div class="card shadow-custom mt-5">
+    <div class="card-header bg-primary text-white">
+        Quick Actions
+    </div>
+
+    <div class="card-body">
+
+        <div class="row g-3">
+
+            <div class="col-md-4">
+                <a href="{{ url_for('teacher.register_teacher') }}"
+                   class="btn btn-primary w-100">
+                    Register Teacher
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{{ url_for('student.register_student') }}"
+                   class="btn btn-success w-100">
+                    Register Student
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="#"
+                   class="btn btn-secondary w-100">
+                    View Students
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Pending Parent Requests -->
+<div class="card shadow-custom mt-5">
+
+    <div class="card-header bg-warning">
+        <strong>Pending Parent Requests</strong>
+    </div>
+
+    <div class="card-body">
+
+        {% if parents %}
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th width="220">Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for parent in parents %}
+
+                <tr>
+
+                    <td>{{ parent.name }}</td>
+
+                    <td>{{ parent.email }}</td>
+
+                    <td>
+
+                        <div class="d-flex gap-2">
+
+                            <form method="POST"
+                                  action="{{ url_for('admin.approve_parent', user_id=parent.id) }}">
+
+                                <button class="btn btn-success btn-sm">
+                                    Approve
+                                </button>
+
+                            </form>
+
+                            <form method="POST"
+                                  action="{{ url_for('admin.reject_parent', user_id=parent.id) }}">
+
+                                <button class="btn btn-danger btn-sm">
+                                    Reject
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+            <div class="alert alert-success mb-0">
+                No pending parent requests.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

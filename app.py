@@ -5,6 +5,7 @@ from routes.auth import auth_bp
 from routes.admin import admin_bp
 from routes.parent import parent_bp
 from routes.signup import signup_bp
+from routes.student import student_bp
 
 app = Flask(__name__)
 app.secret_key = "secretkey"
@@ -14,6 +15,7 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(parent_bp)
 app.register_blueprint(signup_bp)
+app.register_blueprint(student_bp)
 
 @app.route("/")
 def home():

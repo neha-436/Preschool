@@ -57,7 +57,7 @@ def register_teacher():
 
         return redirect(url_for("admin.dashboard"))
 
-    return render_template("register_teacher.html")
+    return render_template("admin/register_teacher.html")
 
 @teacher_bp.route("/teacher/dashboard")
 def dashboard():
