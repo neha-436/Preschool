@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}
+View Timetable
+{% endblock %}
+
+{% block content %}
+
+<div class="card shadow-custom">
+
+    <div class="card-header bg-primary text-white">
+
+        <h4>Weekly Timetable</h4>
+        {% if session["role"] == "admin" %}
+
+        <form method="GET" class="row mb-2">
+
+            <div class="col-md-4">
+
+                <select
+                    name="class_name"
+                    class="form-select"
+                    onchange="this.form.submit()">
+
+                    <option value="">All Classes</option>
+
+                    {% for cls in classes %}
+
+                    <option
+                        value="{{ cls.class_name }}"
+                        {% if selected_class == cls.class_name %}selected{% endif %}>
+
+                        {{ cls.class_name }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+        </form>
+
+        {% endif %}
+
+    </div>
+
+    <div class="card-body">
+
+        {% if timetable %}
+
+        <table class="table table-bordered text-center">
+
+            <thead class="table-dark">
+
+                <tr>
+
+                    <th>Class</th>
+                    <th>Day</th>
+
+                    <th>Period 1</th>
+                    <th>Period 2</th>
+                    <th>Period 3</th>
+                    <th>Period 4</th>
+                    <th>Period 5</th>
+                    <th>Period 6</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for row in timetable %}
+
+                <tr>
+
+                    <td>{{ row.class_name }}</td>
+                    <td>{{ row.day }}</td>
+
+                    <td>{{ row.period1 }}</td>
+                    <td>{{ row.period2 }}</td>
+                    <td>{{ row.period3 }}</td>
+                    <td>{{ row.period4 }}</td>
+                    <td>{{ row.period5 }}</td>
+                    <td>{{ row.period6 }}</td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="alert alert-info">
+
+            No timetable available.
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

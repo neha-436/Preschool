@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+Teacher Dashboard
+{% endblock %}
+
+{% block content %}
+
+<h2>Teacher Dashboard</h2>
+
+<div class="card shadow-custom mt-4">
+
+    <div class="card-body">
+
+        <a href="{{ url_for('timetable.view_timetable') }}"
+           class="btn btn-primary">
+
+            View Timetable
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

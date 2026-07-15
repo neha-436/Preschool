@@ -135,6 +135,35 @@ Admin Dashboard
     </div>
 </div>
 
+<div class="card shadow-custom mt-5">
+    <div class="card-header bg-primary text-white">
+        Timetable
+    </div>
+
+    <div class="card-body">
+
+        <div class="row justify-content-center g-2">
+
+            <div class="col-md-4">
+                <a href="{{ url_for('timetable.create_timetable') }}"
+                   class="btn btn-outline-primary w-100">
+                    Create
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{{ url_for('timetable.view_timetable') }}"
+                   class="btn btn-outline-primary w-100">
+                    View
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
 <!-- Pending Parent Requests -->
 <div class="card shadow-custom mt-5">
 

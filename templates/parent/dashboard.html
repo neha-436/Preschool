@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+Parent Dashboard
+{% endblock %}
+
+{% block content %}
+
+<h2>Parent Dashboard</h2>
+
+<div class="card shadow-custom mt-4">
+
+    <div class="card-body">
+
+        <a href="{{ url_for('timetable.view_timetable') }}"
+           class="btn btn-success">
+
+            View Timetable
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

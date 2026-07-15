@@ -61,4 +61,4 @@ def register_teacher():
 
 @teacher_bp.route("/teacher/dashboard")
 def dashboard():
-    return "<h1>Teacher Dashboard</h1>"
+    return render_template("teacher/dashboard.html")
