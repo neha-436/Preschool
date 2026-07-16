@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}
+School Events
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2>School Events</h2>
+
+    {% if session["role"] == "admin" %}
+    <a href="{{ url_for('events.post_event') }}"
+       class="btn btn-primary">
+        + Post New Event
+    </a>
+    {% endif %}
+
+</div>
+
+{% if events %}
+
+<div class="row g-4">
+
+    {% for event in events %}
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-custom h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-start">
+
+                    <h4>{{ event.title }}</h4>
+
+                    {% if event.target_class %}
+
+                        <span class="badge bg-primary">
+                            {{ event.target_class }}
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-success">
+                            Entire School
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+                <hr>
+
+                <p class="text-muted mb-2">
+
+                    📅
+                    <strong>Date:</strong>
+
+                    {{ event.event_date }}
+
+                </p>
+
+                <p class="mb-0">
+
+                    {{ event.description }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="alert alert-info">
+
+    <h5 class="mb-1">No Events Found</h5>
+
+    <p class="mb-0">
+        There are currently no events or announcements.
+    </p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

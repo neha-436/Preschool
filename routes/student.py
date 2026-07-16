@@ -49,7 +49,59 @@ def register_student():
     return render_template("admin/register_student.html", parents=parents)
         
         
-        
+@student_bp.route("/view_students")
+def view_students():
+
+    if "user_id" not in session:
+        flash("Please login first", "warning")
+        return redirect(url_for("auth.login"))
+    
+    if session["role"]!="admin":
+        flash("Access denied", "warning")
+        return redirect(url_for("auth.login"))
+    
+    search = request.args.get("search", "")
+    selected_class = request.args.get("class_name", "")
+
+    cursor.execute("""
+        SELECT DISTINCT class_name
+        FROM students
+        ORDER BY class_name
+    """)
+
+    classes = cursor.fetchall()
+    
+    query = """
+        SELECT
+            s.id,
+            s.name,
+            s.dob,
+            s.gender,
+            s.class_name,
+            u.name AS parent_name,
+            u.email AS parent_email
+        FROM students s
+        LEFT JOIN users u
+        ON s.parent_id = u.id
+        WHERE 1=1
+    """
+    params = []
+
+    ## Search by name
+    if search:
+        query += " AND s.name LIKE %s"
+        params.append(f"%{search}%")
+
+    ## Filter by class
+    if selected_class:
+        query += " AND s.class_name = %s"
+        params.append(selected_class)
+    
+    query += " ORDER BY s.class_name, s.name"
+    cursor.execute(query, tuple(params))
+    students = cursor.fetchall()
+
+    return render_template("admin/view_students.html", students=students, classes=classes, search=search, selected_class = selected_class)
 
 
     

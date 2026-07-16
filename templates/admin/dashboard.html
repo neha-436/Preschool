@@ -124,7 +124,7 @@ Admin Dashboard
             </div>
 
             <div class="col-md-4">
-                <a href="#"
+                <a href="{{ url_for('student.view_students') }}"
                    class="btn btn-secondary w-100">
                     View Students
                 </a>
@@ -153,6 +153,24 @@ Admin Dashboard
 
             <div class="col-md-4">
                 <a href="{{ url_for('timetable.view_timetable') }}"
+                   class="btn btn-outline-primary w-100">
+                    View
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="card shadow-custom mt-5">
+    <div class="card-header bg-primary text-white">
+        Events
+    </div>
+
+    <div class="card-body justify-content-center">
+            <div class="col-md">
+                <a href="{{ url_for('events.view_events') }}"
                    class="btn btn-outline-primary w-100">
                     View
                 </a>

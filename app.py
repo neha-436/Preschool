@@ -7,6 +7,7 @@ from routes.parent import parent_bp
 from routes.signup import signup_bp
 from routes.student import student_bp
 from routes.timetable import timetable_bp
+from routes.events import events_bp
 
 app = Flask(__name__)
 app.secret_key = "secretkey"
@@ -18,6 +19,7 @@ app.register_blueprint(parent_bp)
 app.register_blueprint(signup_bp)
 app.register_blueprint(student_bp)
 app.register_blueprint(timetable_bp)
+app.register_blueprint(events_bp)
 
 @app.route("/")
 def home():

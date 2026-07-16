@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}
+View Students
+{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">Students</h2>
+
+<div class="card shadow-custom ">
+    <form method="GET" class="row g-3 p-3">
+
+        <div class="col-md-3">
+
+            <input
+                type="text"
+                name="search"
+                class="form-control"
+                onchange="this.form.submit()"
+                placeholder="Search by student name..."
+                value="{{ search }}">
+
+        </div>
+
+        <div class="col-md-4">
+
+            <select
+                name="class_name"
+                class="form-select"
+                onchange="this.form.submit()">
+
+                <option value="">All Classes</option>
+
+                {% for cls in classes %}
+
+                <option
+                    value="{{ cls.class_name }}"
+                    {% if selected_class == cls.class_name %}selected{% endif %}>
+
+                    {{ cls.class_name }}
+
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <button class="btn btn-primary w-100">
+                Search
+            </button>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <a
+                href="{{ url_for('student.view_students') }}"
+                class="btn btn-secondary w-100">
+
+                Reset
+
+            </a>
+
+        </div>
+
+    </form>
+
+    <div class="card-body">
+
+        {% if students %}
+
+        <table class="table table-hover align-middle">
+
+            <thead class="table-dark">
+
+                <tr>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Gender</th>
+                    <th>DOB</th>
+                    <th>Parent</th>
+                    <th>Email</th>
+                    <th width="150">Actions</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for student in students %}
+
+                <tr>
+
+                    <td>{{ student.name }}</td>
+
+                    <td>{{ student.class_name }}</td>
+
+                    <td>{{ student.gender }}</td>
+
+                    <td>{{ student.dob }}</td>
+
+                    <td>{{ student.parent_name }}</td>
+
+                    <td>{{ student.parent_email }}</td>
+
+                    <td>
+
+                        <a href="#"
+                           class="btn btn-warning btn-sm">
+
+                            Edit
+
+                        </a>
+
+                        <a href="#"
+                           class="btn btn-danger btn-sm">
+
+                            Delete
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="alert alert-info">
+
+            No students registered.
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
