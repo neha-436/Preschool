@@ -8,67 +8,68 @@ View Students
 
 <h2 class="mb-4">Students</h2>
 
+<form method="GET" class="row g-3 mb-4">
+
+    <div class="col-md-3">
+
+        <input
+            type="text"
+            name="search"
+            class="form-control"
+            onchange="this.form.submit()"
+            placeholder="Student name..."
+            value="{{ search }}">
+
+    </div>
+
+    <div class="col">
+
+        <select
+            name="class_name"
+            class="form-select"
+            onchange="this.form.submit()">
+
+            <option value="">All Classes</option>
+
+            {% for cls in classes %}
+
+            <option
+                value="{{ cls.class_name }}"
+                {% if selected_class == cls.class_name %}selected{% endif %}>
+
+                {{ cls.class_name }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <button class="btn btn-primary w-100">
+            Search
+        </button>
+
+    </div>
+
+    <div class="col-md-2">
+
+        <a
+            href="{{ url_for('student.view_students') }}"
+            class="btn btn-secondary w-100">
+
+            Reset
+
+        </a>
+
+    </div>
+
+</form>
+
 <div class="card shadow-custom ">
-    <form method="GET" class="row g-3 p-3">
-
-        <div class="col-md-3">
-
-            <input
-                type="text"
-                name="search"
-                class="form-control"
-                onchange="this.form.submit()"
-                placeholder="Search by student name..."
-                value="{{ search }}">
-
-        </div>
-
-        <div class="col-md-4">
-
-            <select
-                name="class_name"
-                class="form-select"
-                onchange="this.form.submit()">
-
-                <option value="">All Classes</option>
-
-                {% for cls in classes %}
-
-                <option
-                    value="{{ cls.class_name }}"
-                    {% if selected_class == cls.class_name %}selected{% endif %}>
-
-                    {{ cls.class_name }}
-
-                </option>
-
-                {% endfor %}
-
-            </select>
-
-        </div>
-
-        <div class="col-md-3">
-
-            <button class="btn btn-primary w-100">
-                Search
-            </button>
-
-        </div>
-
-        <div class="col-md-2">
-
-            <a
-                href="{{ url_for('student.view_students') }}"
-                class="btn btn-secondary w-100">
-
-                Reset
-
-            </a>
-
-        </div>
-
-    </form>
 
     <div class="card-body">
 
@@ -133,6 +134,31 @@ View Students
             </tbody>
 
         </table>
+
+        <div class="d-flex">
+            <div>
+
+                <a href="{{ url_for('report.export_students_csv',
+                                search=search,
+                                class_name=selected_class) }}"
+                class="btn btn-outline-success">
+
+                    Export CSV
+
+                </a>
+
+                <a href="{{ url_for('report.export_students_pdf',
+                                search=search,
+                                class_name=selected_class) }}"
+                class="btn btn-outline-success">
+
+                    Export PDF
+
+                </a>
+
+            </div>
+
+        </div>
 
         {% else %}
 

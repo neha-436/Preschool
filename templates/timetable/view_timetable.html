@@ -6,14 +6,11 @@ View Timetable
 
 {% block content %}
 
-<div class="card shadow-custom">
+<h2 class="mb-4">Weekly Timetable</h2>
 
-    <div class="card-header bg-primary text-white">
+{% if session["role"] == "admin" %}
 
-        <h4>Weekly Timetable</h4>
-        {% if session["role"] == "admin" %}
-
-        <form method="GET" class="row mb-2">
+        <form method="GET" class="row mb-4">
 
             <div class="col-md-4">
 
@@ -44,7 +41,7 @@ View Timetable
 
         {% endif %}
 
-    </div>
+<div class="card shadow-custom">
 
     <div class="card-body">
 
@@ -93,6 +90,14 @@ View Timetable
             </tbody>
 
         </table>
+
+        <a href="{{ url_for('report.export_timetable_pdf',
+                            class_name=selected_class) }}"
+        class="btn btn-outline-success">
+
+            Export PDF
+
+        </a>
 
         {% else %}
 

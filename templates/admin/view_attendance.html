@@ -15,6 +15,7 @@ View Attendance
             type="text"
             name="search"
             class="form-control"
+            onchange="this.form.submit()"
             placeholder="Search Student..."
             value="{{ search }}">
     </div>
@@ -23,7 +24,8 @@ View Attendance
 
         <select
             name="class_name"
-            class="form-select">
+            class="form-select"
+            onchange="this.form.submit()">
 
             <option value="">All Classes</option>
 
@@ -49,6 +51,7 @@ View Attendance
             type="date"
             name="date"
             class="form-control"
+            onchange="this.form.submit()"
             value="{{ selected_date }}">
 
     </div>
@@ -58,6 +61,18 @@ View Attendance
         <button class="btn btn-primary w-100">
             Search
         </button>
+
+    </div>
+
+    <div class="col-md-2">
+
+        <a
+            href="{{ url_for('attendance.view_attendance') }}"
+            class="btn btn-secondary w-100">
+
+            Reset
+
+        </a>
 
     </div>
 
@@ -124,6 +139,34 @@ View Attendance
             </tbody>
 
         </table>
+
+        <div class="d-flex">
+
+            <div>
+
+                <a href="{{ url_for('report.export_attendance_csv',
+                                    search=seacrh,
+                                    class_name=selected_class,
+                                    date=selected_date) }}"
+                class="btn btn-outline-success">
+
+                    Export CSV
+
+                </a>
+
+                <a href="{{ url_for('report.export_attendance_pdf',
+                                    search=seacrh,
+                                    class_name=selected_class,
+                                    date=selected_date) }}"
+                class="btn btn-outline-success">
+
+                    Export PDF
+
+                </a>
+
+            </div>
+
+        </div>
 
         {% else %}
 
