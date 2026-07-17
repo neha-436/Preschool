@@ -11,13 +11,34 @@ Mark Attendance
 <div class="card shadow-custom">
 
     <div class="card-header bg-primary text-white">
-        Class {{ selected_class }}
+        Class {{ class_name }}
     </div>
 
     <div class="card-body">
+
+        <form method="GET" class="mb-4">
+
+            <label class="form-label">Attendance Date</label>
+
+            <input
+                type="date"
+                name="attendance_date"
+                class="form-control"
+                value="{{ selected_date }}"
+                onchange="this.form.submit()">
+
+        </form>
+
+
         <form method="POST">
 
-            <div class="mb-4">
+            <input
+                type="hidden"
+                name="attendance_date"
+                value="{{ selected_date }}">
+
+
+            <!-- <div class="mb-4">
 
                 <label class="form-label">Attendance Date</label>
                 <input
@@ -25,7 +46,7 @@ Mark Attendance
                     name="attendance_date"
                     class="form-control"
                     required>
-            </div>
+            </div> -->
 
             <table class="table table-bordered">
 
@@ -52,7 +73,13 @@ Mark Attendance
                                     type="radio"
                                     name="status_{{ student.id }}"
                                     value="present"
+
+                                    {% if attendance_map.get(student.id) == "present" %}
+                                    checked
+                                    {% endif %}
+
                                     required>
+
                                 <label class="form-check-label">
                                     Present
                                 </label>
@@ -64,7 +91,11 @@ Mark Attendance
                                     type="radio"
                                     name="status_{{ student.id }}"
                                     value="absent"
-                                    required>
+
+                                    {% if attendance_map.get(student.id) == "absent" %}
+                                    checked
+                                    {% endif %}>
+
                                 <label class="form-check-label">
                                     Absent
                                 </label>

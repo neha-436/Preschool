@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, url_for, flash, redirect, session, Blueprint
 from db import db, cursor
+from datetime import date
 
 attendance_bp = Blueprint("attendance", __name__)
 
@@ -24,6 +25,11 @@ def mark_attendance():
 
     selected_class = teacher["class_assigned"]
 
+    selected_date = request.args.get(
+        "attendance_date",
+        date.today().isoformat()
+    )
+
     # Get students of that class
     cursor.execute("""
         SELECT *
@@ -33,6 +39,20 @@ def mark_attendance():
     """, (selected_class,))
 
     students = cursor.fetchall()
+
+    cursor.execute("""
+        SELECT student_id, status
+        FROM attendance
+        WHERE attendance_date=%s
+        AND class_name=%s
+    """, (selected_date, selected_class))
+
+    records = cursor.fetchall()
+
+    attendance_map = {}
+
+    for record in records:
+        attendance_map[record["student_id"]] = record["status"]
 
     if request.method == "POST":
         attendance_date = request.form["attendance_date"]
@@ -44,6 +64,12 @@ def mark_attendance():
                 INSERT INTO attendance
                 (student_id, attendance_date, status, class_name, marked_by)
                 VALUES (%s, %s, %s, %s, %s) 
+                           
+                ON DUPLICATE KEY UPDATE
+                status = VALUES(status),
+                class_name = VALUES(class_name),
+                marked_by = VALUES(marked_by)
+                           
             """, (
                 student["id"],
                 attendance_date,
@@ -59,7 +85,9 @@ def mark_attendance():
     return render_template(
         "teacher/mark_attendance.html",
         students=students,
-        class_name=selected_class
+        class_name=selected_class,
+        attendance_map=attendance_map,
+        selected_date=selected_date
     )
 
 @attendance_bp.route("/view_attendance")
@@ -106,7 +134,7 @@ def view_attendance():
     # Search by student name
     if search:
         query += " AND s.name LIKE %s"
-        params.append(f"%{search}")
+        params.append(f"%{search}%")
 
     # Filter by class
     if selected_class:
