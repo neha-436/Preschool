@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Student
+{% endblock %}
+
+{% block content %}
+
+<div class="card shadow-custom">
+
+    <div class="card-header bg-warning">
+        <h4>Edit Student</h4>
+    </div>
+
+    <div class="card-body">
+
+        <form method="POST">
+
+            <div class="mb-3">
+
+                <label>Name</label>
+
+                <input
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    value="{{ student.name }}"
+                    required>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Date of Birth</label>
+
+                <input
+                    type="date"
+                    name="dob"
+                    class="form-control"
+                    value="{{ student.dob }}"
+                    required>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Gender</label>
+
+                <select
+                    name="gender"
+                    class="form-select">
+
+                    <option value="Male"
+                    {% if student.gender=="Male" %}selected{% endif %}>
+                    Male
+                    </option>
+
+                    <option value="Female"
+                    {% if student.gender=="Female" %}selected{% endif %}>
+                    Female
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label>Class</label>
+
+                <input
+                    type="text"
+                    name="class_name"
+                    class="form-control"
+                    value="{{ student.class_name }}"
+                    required>
+
+            </div>
+
+            <div class="mb-4">
+
+                <label>Parent</label>
+
+                <select
+                    name="parent_id"
+                    class="form-select">
+
+                    {% for parent in parents %}
+
+                    <option
+                        value="{{ parent.id }}"
+                        {% if parent.id==student.parent_id %}selected{% endif %}>
+
+                        {{ parent.name }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <button class="btn btn-warning">
+
+                Update Student
+
+            </button>
+
+            <a
+                href="{{ url_for('student.view_students') }}"
+                class="btn btn-secondary">
+
+                Cancel
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

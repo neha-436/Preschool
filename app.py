@@ -10,6 +10,7 @@ from routes.timetable import timetable_bp
 from routes.events import events_bp
 from routes.attendance import attendance_bp
 from routes.report import report_bp
+from routes.fees import fees_bp
 
 app = Flask(__name__)
 app.secret_key = "secretkey"
@@ -24,6 +25,7 @@ app.register_blueprint(timetable_bp)
 app.register_blueprint(events_bp)
 app.register_blueprint(attendance_bp)
 app.register_blueprint(report_bp)
+app.register_blueprint(fees_bp)
 
 @app.route("/")
 def home():

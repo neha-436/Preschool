@@ -111,19 +111,23 @@ View Students
 
                     <td>
 
-                        <a href="#"
+                        <a href="{{ url_for('student.edit_student', student_id=student.id) }}"
                            class="btn btn-warning btn-sm">
 
                             Edit
 
                         </a>
 
-                        <a href="#"
-                           class="btn btn-danger btn-sm">
+                        <form method="POST"
+                            action="{{ url_for('student.delete_student', student_id=student.id) }}"
+                            style="display:inline;"
+                            onsubmit="return confirm('Delete this student?');">
 
-                            Delete
+                            <button class="btn btn-danger btn-sm">
+                                Delete
+                            </button>
 
-                        </a>
+                        </form>
 
                     </td>
 

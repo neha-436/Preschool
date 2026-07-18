@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}
+Fee Details
+{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">Fee Details</h2>
+
+<div class="row g-4">
+
+    <div class="col-md-4">
+
+        <div class="card shadow-custom">
+
+            <div class="card-header bg-success text-white">
+                Fee Summary
+            </div>
+
+            <div class="card-body">
+
+                <p><strong>Student:</strong> {{ student.name }}</p>
+
+                <p><strong>Class:</strong> {{ student.class_name }}</p>
+
+                <hr>
+
+                <p><strong>Total Fee:</strong> ₹ {{ fee.total_fee }}</p>
+
+                <p><strong>Paid:</strong> ₹ {{ total_paid }}</p>
+
+                <p><strong>Remaining:</strong> ₹ {{ remaining }}</p>
+
+                <p><strong>Due Date:</strong> {{ fee.due_date }}</p>
+
+                <hr>
+
+                {% if status == "Paid" %}
+
+                    <span class="badge bg-success">
+                        Paid
+                    </span>
+
+                {% elif status == "Partial" %}
+
+                    <span class="badge bg-warning text-dark">
+                        Partial
+                    </span>
+
+                {% else %}
+
+                    <span class="badge bg-danger">
+                        Pending
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-8">
+
+        <div class="card shadow-custom">
+
+            <div class="card-header bg-primary text-white">
+                Payment History
+            </div>
+
+            <div class="card-body">
+
+                {% if payments %}
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Mode</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for payment in payments %}
+
+                        <tr>
+
+                            <td>{{ payment.payment_date }}</td>
+
+                            <td>₹ {{ payment.amount_paid }}</td>
+
+                            <td>{{ payment.payment_mode }}</td>
+
+                            <td>
+
+                                {% if payment.status == "Paid" %}
+
+                                    <span class="badge bg-success">
+                                        Paid
+                                    </span>
+
+                                {% elif payment.status == "Partial" %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        Partial
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-danger">
+                                        Pending
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+                {% else %}
+
+                <div class="alert alert-info">
+
+                    No payments recorded yet.
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

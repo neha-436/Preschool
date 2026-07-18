@@ -103,5 +103,90 @@ def view_students():
 
     return render_template("admin/view_students.html", students=students, classes=classes, search=search, selected_class = selected_class)
 
+@student_bp.route("/edit_student/<int:student_id>", methods=["GET", "POST"])
+def edit_student(student_id):
 
+    if "user_id" not in session:
+        flash("Please login first.", "warning")
+        return redirect(url_for("auth.login"))
+
+    if session["role"] != "admin":
+        flash("Access denied.", "danger")
+        return redirect(url_for("admin.dashboard"))
     
+    cursor.execute("""
+        SELECT id, name
+        FROM users
+        WHERE role='parent'
+        AND status='active'
+        ORDER BY name
+    """)
+
+    parents = cursor.fetchall()
+
+    cursor.execute("""
+        SELECT *
+        FROM students
+        WHERE id=%s
+    """, (student_id,))
+
+    student = cursor.fetchone()
+    
+    if not student:
+        flash("Student not found.", "danger")
+        return redirect(url_for("student.view_students"))
+    
+    if request.method == "POST":
+        name = request.form["name"]
+        dob = request.form["dob"]
+        gender = request.form["gender"]
+        class_name = request.form["class_name"]
+        parent_id = request.form["parent_id"]
+
+        cursor.execute("""
+            UPDATE students
+            SET
+                name=%s,
+                dob=%s,
+                gender=%s,
+                class_name=%s,
+                parent_id=%s
+            WHERE id=%s
+        """, (
+            name,
+            dob,
+            gender,
+            class_name,
+            parent_id,
+            student_id
+        ))
+
+        db.commit()
+
+        flash("Student updated successfully.", 'success')
+
+        return redirect(url_for("student.view_students"))
+    
+    return render_template("admin/edit_student.html", student=student, parents=parents)
+
+@student_bp.route("/delete_student/<int:student_id>", methods=["POST"])
+def delete_student(student_id):
+
+    if "user_id" not in session:
+        flash("Please login first.", "warning")
+        return redirect(url_for("auth.login"))
+
+    if session["role"] != "admin":
+        flash("Access denied.", "danger")
+        return redirect(url_for("admin.dashboard"))
+
+    cursor.execute("""
+        DELETE FROM students
+        WHERE id=%s
+    """, (student_id,))
+
+    db.commit()
+
+    flash("Student deleted successfully.", "success")
+
+    return redirect(url_for("student.view_students"))

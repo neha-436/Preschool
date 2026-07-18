@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}
+Record Fee Payment
+{% endblock %}
+
+{% block content %}
+
+<div class="card shadow-custom">
+
+    <div class="card-header bg-success text-white">
+        <h4>Record Fee Payment</h4>
+    </div>
+
+    <div class="card-body">
+
+        <!-- Student Selection -->
+        <form method="GET">
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Select Student
+                </label>
+
+                <select
+                    name="student_id"
+                    class="form-select"
+                    onchange="this.form.submit()"
+                    required>
+
+                    <option value="">
+                        Select Student
+                    </option>
+
+                    {% for student in students %}
+
+                    <option
+                        value="{{ student.id }}"
+                        {% if selected_student == student.id|string %}
+                        selected
+                        {% endif %}>
+
+                        {{ student.name }} ({{ student.class_name }})
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+        </form>
+
+        {% if fee_info %}
+
+        <!-- Fee Summary -->
+        <div class="card bg-light border mb-4">
+
+            <div class="card-header">
+                <strong>Fee Summary</strong>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        <strong>Student</strong><br>
+                        {{ fee_info.name }}
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <strong>Class</strong><br>
+                        {{ fee_info.class_name }}
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <strong>Total Fee</strong><br>
+                        ₹ {{ fee_info.total_fee }}
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        <strong>Total Paid</strong><br>
+                        ₹ {{ fee_info.paid }}
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <strong>Remaining</strong><br>
+                        ₹ {{ fee_info.remaining }}
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <strong>Status</strong><br>
+
+                        {% if fee_info.status == "Paid" %}
+
+                            <span class="badge bg-success">
+                                Paid
+                            </span>
+
+                        {% elif fee_info.status == "Partial" %}
+
+                            <span class="badge bg-warning text-dark">
+                                Partial
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-danger">
+                                Pending
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Payment Form -->
+        <form method="POST">
+
+            <input
+                type="hidden"
+                name="student_id"
+                value="{{ fee_info.id }}">
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Amount Paid
+                </label>
+
+                <input
+                    type="number"
+                    name="amount_paid"
+                    class="form-control"
+                    min="1"
+                    max="{{ fee_info.remaining }}"
+                    placeholder="Enter payment amount"
+                    required>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Payment Date
+                </label>
+
+                <input
+                    type="date"
+                    name="payment_date"
+                    class="form-control"
+                    required>
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Payment Mode
+                </label>
+
+                <select
+                    name="payment_mode"
+                    class="form-select"
+                    required>
+
+                    <option value="Cash">Cash</option>
+                    <option value="UPI">UPI</option>
+                    <option value="Card">Card</option>
+                    <option value="Net Banking">Net Banking</option>
+
+                </select>
+
+            </div>
+
+            <button
+                class="btn btn-success">
+
+                Record Payment
+
+            </button>
+
+        </form>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

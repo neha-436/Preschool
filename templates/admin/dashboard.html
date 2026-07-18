@@ -196,6 +196,39 @@ Admin Dashboard
     </div>
 </div>
 
+<div class="card shadow-custom mt-5">
+    <div class="card-header bg-primary text-white">
+        Fees
+    </div>
+
+    <div class="card-body">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <a href="{{ url_for('fees.create_fee_structure') }}"
+                   class="btn btn-outline-primary w-100">
+                    Create Fee Structure
+                </a>
+            </div>
+
+            <div class="col-md-4">
+
+                <a href="{{ url_for('fees.record_payment') }}"
+                class="btn btn-outline-primary w-100">
+                    Record Payment
+                </a>
+            </div>
+
+            <div class="col-md-4">
+
+                <a href="{{ url_for('fees.view_fee_payments') }}"
+                class="btn btn-outline-primary w-100">
+                    View Fee Payment
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- Pending Parent Requests -->
 <div class="card shadow-custom mt-5">

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}
+Create Fee Structure
+{% endblock %}
+
+{% block content %}
+
+<div class="card shadow-custom">
+
+    <div class="card-header bg-primary text-white">
+
+        <h4>Create Fee Structure</h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <form method="POST">
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Class
+                </label>
+
+                <select
+                    name="class_name"
+                    class="form-select"
+                    required>
+
+                    <option value="">
+                        Select Class
+                    </option>
+
+                    {% for cls in classes %}
+
+                    <option value="{{ cls.class_name }}">
+                        {{ cls.class_name }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Total Fee
+                </label>
+
+                <input
+                    type="number"
+                    name="total_fee"
+                    class="form-control"
+                    placeholder="Enter total fee"
+                    required>
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Due Date
+                </label>
+
+                <input
+                    type="date"
+                    name="due_date"
+                    class="form-control"
+                    required>
+
+            </div>
+
+            <button class="btn btn-success">
+
+                Save Fee Structure
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
