@@ -72,13 +72,6 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-
-> If `requirements.txt` is unavailable:
-
-```bash
-pip install Flask mysql-connector-python
-```
-
 ### 4. Import the database
 
 Use any MySQL user with permission to create databases and run:
