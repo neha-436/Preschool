@@ -47,8 +47,8 @@ Preschool-Management-System/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/neha-436/Preschool-Management-System.git
-cd Preschool-Management-System
+git clone https://github.com/neha-436/Preschool.git
+cd Preschool
 ```
 
 ### 2. Create a virtual environment
