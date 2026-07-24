@@ -18,7 +18,7 @@ Create Timetable
 
             <div class="row mb-3">
 
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
 
                     <label>Class</label>
 
@@ -29,11 +29,33 @@ Create Timetable
                     placeholder="Example: 10A"
                     required>
 
+                </div> -->
+                <div class="col-md-6">
+
+                    <select
+                        name="class_name"
+                        class="form-select"
+                        required>
+
+                        <option value="">All Classes</option>
+
+                        {% for cls in classes %}
+
+                        <option
+                            value="{{ cls.class_name }}"
+                            {% if selected_class == cls.class_name %}selected{% endif %}>
+
+                            {{ cls.class_name }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
                 </div>
 
                 <div class="col-md-6">
-
-                    <label>Day</label>
 
                     <select
                     name="day"

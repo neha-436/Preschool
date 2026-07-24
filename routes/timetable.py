@@ -14,8 +14,18 @@ def create_timetable():
         flash("Access denied", "danger")
         return redirect(url_for("auth.login"))
     
+    cursor.execute("""
+        SELECT DISTINCT class_name
+        FROM attendance
+        ORDER BY class_name
+        """)
+
+    classes = cursor.fetchall()
+    selected_class = ""
+    
     if request.method == "POST":
-        class_name = request.form["class_name"]
+        selected_class = request.form["class_name"]
+        # class_name = request.form["class_name"]
         day = request.form["day"]
 
         period1 = request.form["period1"]
@@ -30,7 +40,7 @@ def create_timetable():
             SELECT id
             FROM timetable
             WHERE class_name=%s AND day=%s
-        """, (class_name, day))
+        """, (selected_class, day))
 
         if cursor.fetchone():
             flash("Timetable already exists for this class and day.", "warning")
@@ -40,13 +50,13 @@ def create_timetable():
             INSERT INTO timetable
             (class_name, day, period1, period2, period3, period4, period5, period6)
             VALUES(%s, %s, %s, %s, %s, %s, %s, %s)
-        """, (class_name, day, period1, period2, period3, period4, period5, period6))
+        """, (selected_class, day, period1, period2, period3, period4, period5, period6))
 
         db.commit()
 
         flash("Timetable created successfully", "success")
         return redirect(url_for("admin.dashboard"))
-    return render_template("admin/create_timetable.html")
+    return render_template("admin/create_timetable.html", classes=classes, selected_class=selected_class)
 
 @timetable_bp.route("/view_timetable")
 def view_timetable():

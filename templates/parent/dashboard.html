@@ -6,14 +6,29 @@ Parent Dashboard
 
 {% block content %}
 
-<h2>Parent Dashboard</h2>
+<!-- Hero Header -->
+
+<div class='card border-0 mb-4 overflow-hidden' style='background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);'>
+    <div class='card-body p-4 text-white'>
+        <div class='d-flex justify-content-between align-items-center flex-wrap gap-3'>
+            <div>
+                <h2 class='fw-bold mb-1'>Welcome, {{ session['name'] }}</h2>
+                <p class='mb-0 opacity-75'>Parent Dashboard</p>
+            </div>
+            <div class='text-end'>
+                <div class='small opacity-75'>Today</div>
+                <div class='fw-semibold' id='today-date'></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="card shadow-custom mt-4">
 
     <div class="card-body">
 
         <a href="{{ url_for('timetable.view_timetable') }}"
-           class="btn btn-success">
+           class="btn btn-primary">
 
             View Timetable
 
@@ -27,12 +42,22 @@ Parent Dashboard
         </a>
 
         <a href="{{ url_for('fees.parent_fee_dashboard') }}"
-            class="btn btn-success">
+            class="btn btn-primary">
             View Fee Details
         </a>
 
     </div>
 
 </div>
+
+<script>
+document.getElementById('today-date').textContent =
+    new Date().toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+</script>
 
 {% endblock %}
